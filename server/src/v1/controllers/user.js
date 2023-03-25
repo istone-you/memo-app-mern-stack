@@ -3,6 +3,7 @@ const JWT = require("jsonwebtoken");
 
 const User = require("../models/user");
 
+// ユーザー新規登録
 exports.register = async (req, res) => {
     //パスワードの受け取り
     const password = req.body.password;
@@ -25,7 +26,7 @@ exports.register = async (req, res) => {
     }
 }
 
-// ユーザーログインAPI
+// ログイン
 exports.login = async (req, res) => {
     const { username, password } = req.body;
 

@@ -3,8 +3,9 @@ const { body } = require("express-validator");
 require("dotenv").config();
 
 const User = require("../models/user");
-const validation = require("../handlers/validation");
+const validationHandler = require("../handlers/validation");
 const userContoroller = require("../controllers/user");
+const tokenHandler = require("../handlers/token");
 
 // ユーザー新規登録API
 router.post(
@@ -25,7 +26,7 @@ router.post(
             }
         });
     }),
-    validation.validate,
+    validationHandler.validate,
     userContoroller.register
 );
 
@@ -38,8 +39,17 @@ router.post(
     body("password")
         .isLength({ min: 8 })
         .withMessage("パスワードは8文字以上である必要があります"),
-    validation.validate,
+    validationHandler.validate,
     userContoroller.login
+);
+
+// JWT認証用API
+router.post(
+    "/verify-token",
+    tokenHandler.verifyToken,
+    (req, res) => {
+        res.status(200).json({ user: req.user });
+    }
 );
 
 module.exports = router;
