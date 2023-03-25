@@ -24,3 +24,44 @@ exports.register = async (req, res) => {
         return res.status(500).json(error);
     }
 }
+
+// ユーザーログインAPI
+exports.login = async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        //ユーザーの検索
+        const user = await User.findOne({ username: username });
+        if (!user) {
+            return res.status(401).json({
+                error: {
+                    param: "username",
+                    message: "ユーザーが見つかりません",
+                }
+            });
+        }
+
+        //パスワードの照合
+        const decryptedPassword = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
+
+        if (decryptedPassword.toString(CryptoJS.enc.Utf8) !== password) {
+            return res.status(401).json({
+                error: {
+                    param: "password",
+                    message: "パスワードが一致しません",
+                }
+            });
+        }
+
+        // JWTトークンの生成
+        const token = JWT.sign({ id: user._id }, process.env.TOKEN_SECRET_KEY, {
+            expiresIn: "1d",
+        });
+
+        // レスポンス
+        return res.status(200).json({ user, token });
+    }
+    catch (error) {
+        return res.status(500).json(error);
+    }
+}

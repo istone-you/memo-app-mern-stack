@@ -3,8 +3,8 @@ const { body } = require("express-validator");
 require("dotenv").config();
 
 const User = require("../models/user");
-const { validate } = require("../handlers/validation");
-const { register } = require("../controllers/user");
+const validation = require("../handlers/validation");
+const userContoroller = require("../controllers/user");
 
 // ユーザー新規登録API
 router.post(
@@ -25,10 +25,21 @@ router.post(
             }
         });
     }),
-    validate,
-    register
+    validation.validate,
+    userContoroller.register
 );
 
-// ログインAPI
+// ログイン用API
+router.post(
+    "/login",
+    body("username")
+        .isLength({ min: 4 })
+        .withMessage("ユーザー名は4文字以上である必要があります"),
+    body("password")
+        .isLength({ min: 8 })
+        .withMessage("パスワードは8文字以上である必要があります"),
+    validation.validate,
+    userContoroller.login
+);
 
 module.exports = router;
