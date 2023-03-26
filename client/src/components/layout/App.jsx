@@ -4,9 +4,12 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import authUtils from '../../utils/auth';
 import Sidebar from '../common/Sidebar';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/features/userSlice';
 
 const AppLayout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     //JWTを確認して、ログインしていない場合はログインページに遷移する
@@ -15,6 +18,9 @@ const AppLayout = () => {
       const user = await authUtils.isAuthenticated();
       if (!user) {
         navigate('/login');
+      } else {
+        //認証済みの場合は、ユーザー情報を保存する
+        dispatch(setUser(user));
       }
     };
     checkJWT();

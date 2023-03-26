@@ -5,10 +5,12 @@ import LogoutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import assets from '../../assets/index';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
 
     const navigate = useNavigate();
+    const user = useSelector(state => state.user.value);
 
     const logout = () => {
         localStorage.removeItem('token');
@@ -26,7 +28,7 @@ const Sidebar = () => {
             <ListItemButton>
                 <Box sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between"}}>
                     <Typography variant='body2' fontWeight="">
-                        istone
+                        {user.username}
                     </Typography>
                     <IconButton onClick={logout}>
                         <LogoutlinedIcon />
@@ -48,7 +50,7 @@ const Sidebar = () => {
                         プライベート
                     </Typography>
                     <IconButton>
-                        <AddBoxOutlinedIcon fontsize="small" />
+                        <AddBoxOutlinedIcon fontSize="small" />
                     </IconButton>
                 </Box>
             </ListItemButton>
