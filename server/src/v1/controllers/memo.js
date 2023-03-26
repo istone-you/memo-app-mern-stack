@@ -13,6 +13,7 @@ exports.create = async (req, res) => {
         return res.status(500).json(error);
     }
 };
+
 exports.getAll = async (req, res) => {
     try {
         const memos = await Memo.find({ user: req.user._id }).sort( "-position" );
@@ -21,3 +22,16 @@ exports.getAll = async (req, res) => {
         return res.status(500).json(error);
     }
 };
+
+exports.getOne = async (req, res) => {
+    try {
+        const memo = await Memo.findOne({ _id: req.params.memoId, user: req.user._id });
+        if (!memo) {
+            return res.status(404).json({ message: 'Memo not found' });
+        }
+        return res.status(200).json(memo);
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+};
+
