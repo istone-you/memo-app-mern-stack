@@ -1,9 +1,25 @@
 import { Box, Container } from '@mui/system';
 import React from 'react'
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import logo from '../../assets/images/Notion_logo.png';
+import authUtils from '../../utils/auth';
 
 const Auth = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    //JWTを確認して、ログインしていない場合はログインページに遷移する
+    const checkJWT = async () => {
+      //認証チェック
+      const isAuth = await authUtils.isAuthenticated();
+      if (isAuth) {
+        navigate('/');
+      }
+    };
+    checkJWT();
+  }, [navigate])
+
   return (
     <div>
       <Container component="main" maxWidth="xs">

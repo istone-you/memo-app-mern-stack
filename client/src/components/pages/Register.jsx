@@ -2,7 +2,7 @@ import { Box, Button, TextField } from '@mui/material'
 import React from 'react'
 import { LoadingButton } from "@mui/lab";
 import { Link, useNavigate } from "react-router-dom";
-import authApi from '../../api/authApi';
+import authApi from '../../api/auth';
 import { useState } from 'react';
 
 const Register = () => {
