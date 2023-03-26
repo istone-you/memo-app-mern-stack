@@ -12,11 +12,11 @@ const memoSchema = new mongoose.Schema({
     },
     title: {
         type: String,
-        default: 'New Memo',
+        default: '無題',
     },
     description: {
         type: String,
-        default: 'New Memo Description',
+        default: '記入してください',
     },
     position: {
         type: Number,
