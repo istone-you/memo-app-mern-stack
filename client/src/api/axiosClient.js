@@ -20,7 +20,7 @@ axiosClient.interceptors.request.use(async (config) => {
 
 
 axiosClient.interceptors.response.use(response => {
-    return response;
+    return response.data;
 }, (error) => {
     throw error.response;
 });

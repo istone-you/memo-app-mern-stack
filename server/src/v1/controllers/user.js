@@ -35,10 +35,12 @@ exports.login = async (req, res) => {
         const user = await User.findOne({ username: username });
         if (!user) {
             return res.status(401).json({
-                error: {
-                    param: "username",
-                    message: "ユーザーが見つかりません",
-                }
+                errors: [
+                    {
+                        param: "username",
+                        msg: "ユーザーが見つかりません",
+                    }
+                ]
             });
         }
 
@@ -47,10 +49,12 @@ exports.login = async (req, res) => {
 
         if (decryptedPassword.toString(CryptoJS.enc.Utf8) !== password) {
             return res.status(401).json({
-                error: {
-                    param: "password",
-                    message: "パスワードが一致しません",
-                }
+                errors: [
+                    {
+                        param: "password",
+                        msg: "パスワードが違います",
+                    }
+                ]
             });
         }
 
