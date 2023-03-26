@@ -98,7 +98,7 @@ const Login = () => {
           loading={loading}
           color="primary"
           variant="contained"
-        >アカウント作成
+        >ログイン
         </LoadingButton>
       </Box>
       <Button component={Link} to="/login">新規登録はこちら</Button>
