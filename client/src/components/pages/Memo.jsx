@@ -1,15 +1,21 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Box, IconButton, TextField } from '@mui/material'
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import memoApi from '../../api/memo'
+import { useSelector, useDispatch } from 'react-redux'
+import { setMemo } from '../../redux/features/memoSlice'
+
 
 const Memo = () => {
   const { memoId } = useParams()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const memos = useSelector(state => state.memo.value);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getMemo = async () => {
@@ -28,9 +34,9 @@ const Memo = () => {
   const timeout = 1000;
 
   const updateTitle = async (e) => {
-    clearTimeout(timer)
     const newTitle = e.target.value
     setTitle(newTitle)
+    clearTimeout(timer)
 
     timer = setTimeout(async () => {
       try {
@@ -55,6 +61,23 @@ const Memo = () => {
     }, timeout)
   }
 
+  const deleteMemo = async () => {
+    try {
+      const deletedMemo = await memoApi.delete(memoId)
+      alert(deletedMemo)
+      const newMemos = memos.filter(memo => memo._id !== memoId)
+      if  (newMemos.length === 0) {
+        navigate(`/memo`)
+      } else {
+        navigate(`/memo/${newMemos[0]._id}`)
+      }
+
+      dispatch(setMemo(newMemos))
+    } catch (error) {
+      alert(error)
+    }
+  }
+
   return (
     <>
       <Box
@@ -67,7 +90,11 @@ const Memo = () => {
         <IconButton>
           <StarBorderOutlinedIcon />
         </IconButton>
-        <IconButton variant="outlined" color='error'>
+        <IconButton
+          variant="outlined"
+          color='error'
+          onClick={deleteMemo}
+        >
           <DeleteOutlinedIcon />
         </IconButton>
       </Box>

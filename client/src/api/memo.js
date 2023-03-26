@@ -5,6 +5,7 @@ const memoApi = {
     getAll: () => axiosClient.get("memo"),
     getOne: (memoId) => axiosClient.get(`memo/${memoId}`),
     update: (memoId, params) => axiosClient.put(`memo/${memoId}`, params),
+    delete: (memoId) => axiosClient.delete(`memo/${memoId}`),
 };
 
 export default memoApi;
