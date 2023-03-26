@@ -7,12 +7,14 @@ import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import memoApi from '../../api/memo'
 import { useSelector, useDispatch } from 'react-redux'
 import { setMemo } from '../../redux/features/memoSlice'
+import EmojiPicker from '../common/EmojiPicker';
 
 
 const Memo = () => {
   const { memoId } = useParams()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [icon, setIcon] = useState('')
   const memos = useSelector(state => state.memo.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ const Memo = () => {
         const res = await memoApi.getOne(memoId)
         setTitle(res.title)
         setDescription(res.description)
+        setIcon(res.icon)
       } catch (error) {
         alert(error)
       }
@@ -66,13 +69,26 @@ const Memo = () => {
       const deletedMemo = await memoApi.delete(memoId)
       alert(deletedMemo)
       const newMemos = memos.filter(memo => memo._id !== memoId)
-      if  (newMemos.length === 0) {
+      if (newMemos.length === 0) {
         navigate(`/memo`)
       } else {
         navigate(`/memo/${newMemos[0]._id}`)
       }
 
       dispatch(setMemo(newMemos))
+    } catch (error) {
+      alert(error)
+    }
+  }
+
+  const onIconChange = async (newIcon) => {
+    let temp = [...memos]
+    const index = temp.findIndex(memo => memo._id === memoId)
+    temp[index] = { ...temp[index], icon: newIcon }
+    setIcon(newIcon)
+    dispatch(setMemo(temp))
+    try {
+      await memoApi.update(memoId, { icon: newIcon })
     } catch (error) {
       alert(error)
     }
@@ -99,28 +115,31 @@ const Memo = () => {
         </IconButton>
       </Box>
       <Box sx={{ padding: "10px 50px" }}>
-        <TextField
-          onChange={updateTitle}
-          value={title}
-          placeholder='無題'
-          variant='outlined'
-          fullWidth
-          sx={{
-            ".MuiOutlinedInput-notchedOutline": { border: "none" },
-            ".MuiOutlinedInput-root": { fontSize: "2rem", fontWeight: "700" },
-          }}
-        />
-        <TextField
-          onChange={updateDescription}
-          value={description}
-          placeholder='追加'
-          variant='outlined'
-          fullWidth
-          sx={{
-            ".MuiOutlinedInput-notchedOutline": { border: "none" },
-            ".MuiOutlinedInput-root": { fontSize: "1rem" },
-          }}
-        />
+        <Box>
+          <EmojiPicker icon={icon} onChange={onIconChange} />
+          <TextField
+            onChange={updateTitle}
+            value={title}
+            placeholder='無題'
+            variant='outlined'
+            fullWidth
+            sx={{
+              ".MuiOutlinedInput-notchedOutline": { border: "none" },
+              ".MuiOutlinedInput-root": { fontSize: "2rem", fontWeight: "700" },
+            }}
+          />
+          <TextField
+            onChange={updateDescription}
+            value={description}
+            placeholder='追加'
+            variant='outlined'
+            fullWidth
+            sx={{
+              ".MuiOutlinedInput-notchedOutline": { border: "none" },
+              ".MuiOutlinedInput-root": { fontSize: "1rem" },
+            }}
+          />
+        </Box>
       </Box>
     </>
   )
