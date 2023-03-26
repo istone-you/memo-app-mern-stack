@@ -9,7 +9,7 @@ const tokenHandler = require("../handlers/token");
 
 // ユーザー新規登録API
 router.post(
-    "/registar",
+    "/register",
     body("username")
         .isLength({ min: 4 })
         .withMessage("ユーザー名は4文字以上である必要があります"),
