@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import logo from '../../assets/images/Notion_logo.png';
 import authUtils from '../../utils/auth';
 
-const Auth = () => {
+const AuthLayout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,4 +39,4 @@ const Auth = () => {
   )
 }
 
-export default Auth
+export default AuthLayout

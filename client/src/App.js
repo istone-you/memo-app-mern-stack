@@ -1,11 +1,13 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Auth from './components/layout/Auth';
+import AuthLayout from './components/layout/Auth';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from '@mui/material';
 import { blue } from '@mui/material/colors';
+import AppLayout from './components/layout/App';
+import Home from './components/pages/Home';
 
 function App() {
 
@@ -18,9 +20,13 @@ function App() {
       <CssBaseline />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Auth />}>
+          <Route path="/" element={<AuthLayout />}>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+          </Route>
+          <Route path="/" element={ <AppLayout /> }>
+            <Route index element={<Home />} />
+            <Route path="memo" element={<Home />} />
           </Route>
         </Routes>
       </BrowserRouter>
