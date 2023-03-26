@@ -15,7 +15,7 @@ const Auth = () => {
         }}
         >
           <img src={logo} alt="logo" style={{ width: 100, height: 100, marginBottom: 3 }} />
-          メモアプリ
+          Memo App
         </Box>
         <Outlet />
       </Container>
