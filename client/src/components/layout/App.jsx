@@ -24,13 +24,13 @@ const AppLayout = () => {
       }
     };
     checkJWT();
-  }, [navigate])
+  }, [navigate, dispatch])
 
   return (
     <div>
-      <Box sx={{ display: 'flex'}}>
+      <Box sx={{ display: "flex"}}>
         <Sidebar />
-        <Box sx={{ flexGrow: 1, p: 1, width: "max-comtent" }}>
+        <Box sx={{ flexGrow: 1, p: 1, width: "max-content" }}>
             <Outlet />
         </Box>
       </Box>

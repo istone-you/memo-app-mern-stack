@@ -8,6 +8,7 @@ import { CssBaseline } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import AppLayout from './components/layout/App';
 import Home from './components/pages/Home';
+import Memo from './components/pages/Memo';
 
 function App() {
 
@@ -24,9 +25,10 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
           </Route>
-          <Route path="/" element={ <AppLayout /> }>
+          <Route path="/" element={<AppLayout />}>
             <Route index element={<Home />} />
             <Route path="memo" element={<Home />} />
+            <Route path="memo/:memoid" element={<Memo />} />
           </Route>
         </Routes>
       </BrowserRouter>
