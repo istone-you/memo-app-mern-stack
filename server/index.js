@@ -7,7 +7,7 @@ require("dotenv").config();
 const cors = require("cors");
 
 app.use(cors({
-    origin: "http://18.179.33.114:3000",
+    origin: `${process.env.CLIENT_URL}`,
 }));
 app.use(express.json());
 app.use("/api/v1", require("./src/v1/routes/index"));
