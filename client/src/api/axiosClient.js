@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://3.112.83.26:3000/api/v1";
+const baseURL = "http://3.112.83.26:5000/api/v1";
 const getToken = () => localStorage.getItem("token");
 
 const axiosClient = axios.create({
