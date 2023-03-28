@@ -101,7 +101,7 @@ const Login = () => {
         >ログイン
         </LoadingButton>
       </Box>
-      <Button component={Link} to="/login">新規登録はこちら</Button>
+      <Button component={Link} to="/register">新規登録はこちら</Button>
     </>
   )
 }
